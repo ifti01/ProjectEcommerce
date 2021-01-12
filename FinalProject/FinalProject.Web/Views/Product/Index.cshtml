@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+    <div class="container">
+        <div id="tableContainer">
+            @{
+                Html.RenderAction("ProductTable");
+
+                //Html.RenderAction("Create");
+
+            }
+        </div>
+
+        <hr/>
+
+        <div id="actionContainer">
+
+        </div>
+
+    </div>
