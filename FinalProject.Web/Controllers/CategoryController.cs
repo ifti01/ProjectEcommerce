@@ -21,21 +21,21 @@ namespace FinalProject.Web.Controllers
         //}
 
 
-        public ActionResult CategoryTable(string SearchTerm)
+        public ActionResult CategoryTable(string search)
         {
             CategorySearchViewModel model = new CategorySearchViewModel();
 
 
-
+            model.SearchTerm = search;
             model.Categories = categoryService.GetCategories();
 
-            if (!string.IsNullOrEmpty(SearchTerm))
+            if (!string.IsNullOrEmpty(search))
             {
-                model.SearchTerm = SearchTerm;
-                model.Categories = model.Categories.Where(p => p.Name.ToLower().Contains(SearchTerm.ToLower())).ToList();
+                
+                model.Categories = model.Categories.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToList();
 
             }
-            return PartialView("_CategoryTable",model);
+            return PartialView(model);
         }
 
         [HttpGet]

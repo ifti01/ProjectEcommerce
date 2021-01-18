@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalProject.Web", "..\FinalProject.Web\FinalProject.Web.csproj", "{96753C4F-64A7-4F0E-9020-A10103D47629}"
+	ProjectSection(ProjectDependencies) = postProject
+		{18F9A87B-B03C-4D32-BED5-959DC359C924} = {18F9A87B-B03C-4D32-BED5-959DC359C924}
+		{DE404283-1B58-4C08-A12F-B163EF972721} = {DE404283-1B58-4C08-A12F-B163EF972721}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalProject.Entities", "..\FinalProject.Entities\FinalProject.Entities.csproj", "{941D4560-AE4E-4EAE-BC5F-2062CA162436}"
 EndProject

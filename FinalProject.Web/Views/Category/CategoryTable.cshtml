@@ -7,12 +7,12 @@
 }
 
 <div>
-    <form method="post" action="/Category/CategoryTable">
+    <form method="post">
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group">
                     <label>Search</label>
-                    <input class="form-control" id="searchTxt" name="Search" />
+                    <input id="searchTxt" value="@Model.SearchTerm" name="Search">
                 </div>
             </div>
             <div class="col-md-4">
@@ -43,62 +43,64 @@
             </tr>
         </thead>
         <tbody>
-        @if (Model.Categories != null && Model.Categories.Count > 0)
-        {
-            foreach (var category in Model.Categories)
+            @if (Model.Categories != null && Model.Categories.Count > 0)
+            {
+                foreach (var category in Model.Categories)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>
+                            @category.Products.Count
+                        </td>
+                        <td class="wrap-td">
+                            <button class="editButton" data-id="@category.ID">Edit</button>
+                            <button class="deleteButton" data-id="@category.ID">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@category.Name</td>
-                <td>
-                    @category.Products.Count
-                </td>
-                <td class="wrap-td">
-                        <button class="editButton" data-id="@category.ID">Edit</button>
-                        <button class="deleteButton" data-id="@category.ID">Delete</button>
-                    </td>
+                    <td colspan="3" class="text-danger">No Categories found.</td>
                 </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="3" class="text-danger">No Categories found.</td>
-            </tr>
-        }                                                                                          +			}
+            }                         
         </tbody>
     </table>
 </div>
 
 
 <script>
-    $("#searchBtn").click(function() {
+    $("#searchBtn").click(function () {
         var searchValue = $("#searchTxt").val();
 
         $.ajax({
-                url: '/Category/CategoryTable',
-                data: {
-                    search : searchValue
-                }
-            })
+            url: '/Category/CategoryTable',
+            data: {
+                search: searchValue
+            }
+        })
+      
             .done(function (response) {
                 $("#tableContainer").html(response);
             })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("FAIL");
             });
     });
 
+
     $("#newBtn").click(function () {
         //# used for class
         $.ajax({
-                url: '/Category/Create',
-            })
+            url: '/Category/Create',
+        })
             .done(function (response) {
                 $("#actionContainer").html(response);
 
                 focusAction();
             })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("FAIL");
             });
     });
@@ -110,13 +112,13 @@
             data: {
                 ID: $(this).attr('data-id')
             }
-            })
+        })
             .done(function (response) {
                 $("#actionContainer").html(response);
 
                 focusAction();
             })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("FAIL");
             });
     });
@@ -129,18 +131,18 @@
         if (confirmDelete) {
 
             $.ajax({
-                type:'POST',
+                type: 'POST',
                 url: '/Category/Delete',
                 data: {
                     ID: $(this).attr('data-id')
                 }
             })
-            .done(function (response) {
-                $("#tableContainer").html(response);
-            })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("FAIL");
-            });
+                .done(function (response) {
+                    $("#tableContainer").html(response);
+                })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("FAIL");
+                });
         }
 
     });
@@ -148,7 +150,8 @@
     function focusAction() {
         $('html', 'body').animate({
             scrollTop: $("#actionContainer").offset().top - 100
-        },1000);
+        }, 1000);
     }
 
 </script>
+

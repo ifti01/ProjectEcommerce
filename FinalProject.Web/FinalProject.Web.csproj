@@ -637,7 +637,7 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
-    <Content Include="Views\Category\_CategoryTable.cshtml" />
+    <Content Include="Views\Category\CategoryTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -656,6 +656,10 @@
     <ProjectReference Include="..\FinalProject.Entities\FinalProject.Entities.csproj">
       <Project>{941D4560-AE4E-4EAE-BC5F-2062CA162436}</Project>
       <Name>FinalProject.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FinalProject.Services\FinalProject.Services.csproj">
+      <Project>{DE404283-1B58-4C08-A12F-B163EF972721}</Project>
+      <Name>FinalProject.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
