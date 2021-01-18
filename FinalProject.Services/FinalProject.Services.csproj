@@ -56,11 +56,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FinalProject.Database\FinalProject.Database.csproj">
+    <ProjectReference Include="..\FinalProject.Database\FinalProject.Database.csproj">
       <Project>{18f9a87b-b03c-4d32-bed5-959dc359c924}</Project>
       <Name>FinalProject.Database</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\FinalProject.Entities\FinalProject.Entities.csproj">
+    <ProjectReference Include="..\FinalProject.Entities\FinalProject.Entities.csproj">
       <Project>{941D4560-AE4E-4EAE-BC5F-2062CA162436}</Project>
       <Name>FinalProject.Entities</Name>
     </ProjectReference>

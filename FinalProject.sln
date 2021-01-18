@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalProject.Entities", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalProject.Database", "..\FinalProject.Database\FinalProject.Database.csproj", "{18F9A87B-B03C-4D32-BED5-959DC359C924}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalProject.Services", "..\FinalProject.Services\FinalProject.Services.csproj", "{DE404283-1B58-4C08-A12F-B163EF972721}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalProject.Services", "FinalProject.Services\FinalProject.Services.csproj", "{DE404283-1B58-4C08-A12F-B163EF972721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

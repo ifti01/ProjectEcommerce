@@ -657,10 +657,6 @@
       <Project>{941D4560-AE4E-4EAE-BC5F-2062CA162436}</Project>
       <Name>FinalProject.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FinalProject\FinalProject.Services\FinalProject.Services.csproj">
-      <Project>{DE404283-1B58-4C08-A12F-B163EF972721}</Project>
-      <Name>FinalProject.Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
