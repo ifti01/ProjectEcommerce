@@ -17,11 +17,19 @@ namespace FinalProject.Services
         //create communication between a controller and repository layer.
         // The service layer contains business logic.
         // In particular, it contains validation logic.
-        public Product GetProduct(int? ID)
+        public Product GetProduct(int ID)
         {
             using (var context = new CBContext())
             {
                 return context.Products.Find(ID);
+            }
+        }
+
+        public List<Product> GetProducts(List<int> IDs)
+        {
+            using (var context = new CBContext())
+            {
+                return context.Products.Where(product => IDs.Contains(product.ID)).ToList();
             }
         }
 

@@ -62,6 +62,7 @@
                     <td>
                         <button class="editButton" data-id="@product.ID">Edit</button>
                         <button class="deleteButton" data-id="@product.ID">Delete</button>
+                        <button class="addtoCart" data-id="@product.ID">Add to Cart</button>
                     </td>
                 </tr>
             }
@@ -124,24 +125,77 @@
     $(".deleteButton").click(function () {
         //. used for class
 
-        var confirmDelete = confirm("Sure to Delete it?");
 
-        if (confirmDelete) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                                type:'POST',
+                                url: '/Product/Delete',
+                                data: {
+                                    ID: $(this).attr('data-id')
+                                }
+                            })
+                            .done(function (response) {
+                                $("#tableContainer").html(response);
 
-            $.ajax({
-                type:'POST',
-                url: '/Product/Delete',
-                data: {
-                    ID: $(this).attr('data-id')
+                                swal("Record has been deleted!", {
+                                    icon: "success",
+                                });
+                            })
+                            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                                alert("FAIL");
+                            });
+
+
                 }
-            })
-            .done(function (response) {
-                $("#tableContainer").html(response);
-            })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("FAIL");
+                else {
+                    swal("Your imaginary file is safe!");
+                }
             });
-        }
+
+
+
+        //var confirmDelete = confirm("Sure to Delete it?");
+
+        //if (confirmDelete) {
+
+        //    $.ajax({
+        //        type:'POST',
+        //        url: '/Product/Delete',
+        //        data: {
+        //            ID: $(this).attr('data-id')
+        //        }
+        //    })
+        //    .done(function (response) {
+        //        $("#tableContainer").html(response);
+        //    })
+        //    .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+        //        alert("FAIL");
+        //    });
+        //}
+
+    });
+
+    var products = [];
+
+
+    $(".addtoCart").click(function () {
+        //. used for class
+
+        var productID = $(this).attr('data-id');
+
+        products.push(productID);
+
+        $.cookie('CartProducts', products.join('-'), {path:'/'});
+
+        alert("Product added to Cart");
 
     });
 

@@ -60,7 +60,7 @@ namespace FinalProject.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int? ID)
+        public ActionResult Edit(int ID)
         {
             var product = productsService.GetProduct(ID);
 
