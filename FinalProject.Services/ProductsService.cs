@@ -13,6 +13,22 @@ namespace FinalProject.Services
 {
     public class ProductsService
     {
+        #region Singleton
+        public static ProductsService Instance
+        {
+            get
+            {
+                if (instance == null) instance = new ProductsService();
+
+                return instance;
+            }
+        }
+        private static ProductsService instance { get; set; }
+        public ProductsService()
+        {
+        }
+
+        #endregion
 
         //create communication between a controller and repository layer.
         // The service layer contains business logic.
@@ -21,7 +37,7 @@ namespace FinalProject.Services
         {
             using (var context = new CBContext())
             {
-                return context.Products.Find(ID);
+                return context.Products.Where(p=>p.ID==ID).Include(p=>p.Category).FirstOrDefault();
             }
         }
 
@@ -33,16 +49,19 @@ namespace FinalProject.Services
             }
         }
 
-        public List<Product> GetProducts()
+        public List<Product> GetProducts(int pageNo)
         {
-            //var context = new CBContext();
 
-            //return context.Products.ToList();
+            int pageSize = 5;
+
             //for showing product category in productindex
 
             using (var context = new CBContext())
             {
-                return context.Products.Include(x=> x.Category).ToList();
+                return context.Products.
+                    OrderBy(x=>x.ID)
+                    .Skip((pageNo - 1) * pageSize).Take(pageSize)
+                    .Include(x=> x.Category).ToList();
             }
         }
 

@@ -10,7 +10,7 @@ namespace FinalProject.Web.Controllers
 {
     public class ShopController : Controller
     {
-        ProductsService productsService = new ProductsService();
+        //ProductsService productsService = new ProductsService();
 
         // GET: Shop
         public ActionResult Checkout()
@@ -29,7 +29,7 @@ namespace FinalProject.Web.Controllers
 
                 model.CartProductIDs = CartProductsCookie.Value.Split('-').Select(x => int.Parse(x)).ToList();
 
-                model.CartProducts = productsService.GetProducts(model.CartProductIDs); //products that user wiibuy
+                model.CartProducts = ProductsService.Instance.GetProducts(model.CartProductIDs); //products that user wiibuy
             }
 
             return View(model);

@@ -1,10 +1,13 @@
-﻿@model List<FinalProject.Entities.Product>
+﻿@model  FinalProject.Web.ViewModels.ProductSearchViewModel
 
-@*@model List<Product>*@
 
 @{
     ViewBag.Title = "ProductTable";
 }
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
 
 <div>
     <form method="post" action="/Product/ProductTable">
@@ -15,18 +18,18 @@
                     <input class="form-control" id="searchTxt" name="Search" />
                 </div>
             </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>Action</label>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary form-control" type="button" id="searchBtn">Search</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-primary form-control"  type="button" id="newBtn">New</button>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Action</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary form-control" type="button" id="searchBtn">Search</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary form-control" type="button" id="newBtn">New</button>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
 
@@ -34,7 +37,7 @@
 </div>
 
 <div>
-    <table class="table table-striped">
+    <table id="ProductsTable">
         <thead>
             <tr>
                 <td>Product Name</td>
@@ -44,7 +47,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in Model)
+            @foreach (var product in Model.Products)
             {
                 <tr>
                     <td>@product.Name</td>
@@ -68,23 +71,50 @@
             }
         </tbody>
     </table>
+    <div>
+
+        @if (Model.PageNo != 1)
+        {
+            <button class="pageButtons" data-pageNo="@(Model.PageNo - 1)">Previous</button>
+        }
+
+        <button class="pageButtons" data-pageNo="@(Model.PageNo + 1)">Next</button>
+    </div>
 </div>
 
 
 <script>
-    $("#searchBtn").click(function() {
+
+    $('#ProductsTable').DataTable();
+
+    $(".pageButtons").click(function () {
+        $.ajax({
+            url: '/Product/ProductTable',
+            data: {
+                pageNo: $(this).attr("data-pageNo")
+            }
+        })
+            .done(function (response) {
+                $("#tableContiner").html(response);
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("FAIL");
+            });
+    });
+
+    $("#searchBtn").click(function () {
         var searchValue = $("#searchTxt").val();
 
         $.ajax({
-                url: '/Product/ProductTable',
-                data: {
-                    search : searchValue
-                }
-            })
+            url: '/Product/ProductTable',
+            data: {
+                search: searchValue
+            }
+        })
             .done(function (response) {
-                $("#tableContainer").html(response);
+                $("#tableContiner").html(response);
             })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("FAIL");
             });
     });
@@ -92,14 +122,14 @@
     $("#newBtn").click(function () {
         //# used for class
         $.ajax({
-                url: '/Product/Create',
-            })
+            url: '/Product/Create',
+        })
             .done(function (response) {
-                $("#actionContainer").html(response);
+                $("#actionContiner").html(response);
 
                 focusAction();
             })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("FAIL");
             });
     });
@@ -111,13 +141,13 @@
             data: {
                 ID: $(this).attr('data-id')
             }
-            })
+        })
             .done(function (response) {
-                $("#actionContainer").html(response);
+                $("#actionContiner").html(response);
 
                 focusAction();
             })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("FAIL");
             });
     });
@@ -126,32 +156,32 @@
         //. used for class
 
 
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this imaginary file!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                                type:'POST',
-                                url: '/Product/Delete',
-                                data: {
-                                    ID: $(this).attr('data-id')
-                                }
-                            })
-                            .done(function (response) {
-                                $("#tableContainer").html(response);
+                        type: 'POST',
+                        url: '/Product/Delete',
+                        data: {
+                            ID: $(this).attr('data-id')
+                        }
+                    })
+                        .done(function (response) {
+                            $("#tableContiner").html(response);
 
-                                swal("Record has been deleted!", {
-                                    icon: "success",
-                                });
-                            })
-                            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                                alert("FAIL");
+                            swal("Record has been deleted!", {
+                                icon: "success",
                             });
+                        })
+                        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("FAIL");
+                        });
 
 
                 }
@@ -193,7 +223,7 @@
 
         products.push(productID);
 
-        $.cookie('CartProducts', products.join('-'), {path:'/'});
+        $.cookie('CartProducts', products.join('-'), { path: '/' });
 
         alert("Product added to Cart");
 
@@ -202,7 +232,7 @@
     function focusAction() {
         $('html', 'body').animate({
             scrollTop: $("#actionContainer").offset().top - 100
-        },1000);
+        }, 1000);
     }
 
 </script>

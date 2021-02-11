@@ -11,37 +11,59 @@ namespace FinalProject.Web.Controllers
 {
     public class ProductController : Controller
     {
-        ProductsService productsService = new ProductsService();
+        //ProductsService productsService = new ProductsService();
+        CategoriesService categoriesService=new CategoriesService();
 
         // GET: Product
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult ProductTable(string Search)
+        public ActionResult ProductTable(string Search,int? pageNo)
         {
-            var products = productsService.GetProducts();
+            ProductSearchViewModel model = new ProductSearchViewModel();
+
+            model.PageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
+
+            ////similar to above
+            //if(pageNo.HasValue)
+            //{
+            //    if(pageNo.Value > 0)
+            //    {
+            //        model.PageNo = pageNo.Value;
+            //    }
+            //    else
+            //    {
+            //        model.PageNo = 1;
+            //    }
+            //}
+            //else
+            //{
+            //    model.PageNo = 1;
+            //}
+
+            model.Products = ProductsService.Instance.GetProducts(model.PageNo);
 
             if (string.IsNullOrEmpty(Search) == false)
             {
-                products = products.Where(p => p.Name.ToLower().Contains(Search.ToLower())).ToList();
+                model.SearchTerm = Search;
+                model.Products = model.Products.Where(p => p.Name.ToLower().Contains(Search.ToLower())).ToList();
 
             }
-            return PartialView(products);
+            return PartialView(model);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            CategoriesService categoryService = new CategoriesService();
+            NewProductViewModel model = new NewProductViewModel();
 
-            var categories = categoryService.GetCategories();
-
-            return PartialView(categories);
+            model.AvailableCategories = categoriesService.GetCategories();
+            return PartialView(model);
         }
 
         [HttpPost]
-        public ActionResult Create(NewCategoryViewModel model)
+        public ActionResult Create(NewProductViewModel model)
         {
             CategoriesService categoryService = new CategoriesService();
 
@@ -54,7 +76,7 @@ namespace FinalProject.Web.Controllers
             //newProduct.CategoryID = model.CategoryID;
             newProduct.Category = categoryService.GetCategory(model.CategoryID);
             
-            productsService.SaveProduct(newProduct);
+            ProductsService.Instance.SaveProduct(newProduct);
 
             return RedirectToAction("ProductTable");
         }
@@ -62,15 +84,26 @@ namespace FinalProject.Web.Controllers
         [HttpGet]
         public ActionResult Edit(int ID)
         {
-            var product = productsService.GetProduct(ID);
+            EditProductViewModel model = new EditProductViewModel();
 
-            return PartialView(product);
+            var product = ProductsService.Instance.GetProduct(ID);
+
+            model.ID = product.ID;
+            model.Name = product.Name;
+            model.Description = product.Description;
+            model.Price = product.Price;
+            model.CategoryID = product.Category != null ? product.Category.ID : 0;
+            model.AvailableCategories = categoriesService.GetCategories();
+            //Availablectegories add kori nai
+
+            return PartialView(model);
         }
 
         [HttpPost]
         public ActionResult Edit(Product product)
         {
-            productsService.UpdateProduct(product);
+
+            ProductsService.Instance.UpdateProduct(product);
 
             return RedirectToAction("ProductTable");
         }
@@ -79,7 +112,7 @@ namespace FinalProject.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int ID)
         {
-            productsService.DeleteProduct(ID);
+            ProductsService.Instance.DeleteProduct(ID);
 
             return RedirectToAction("ProductTable");
         }

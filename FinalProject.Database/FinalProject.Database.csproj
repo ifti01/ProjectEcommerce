@@ -68,6 +68,10 @@
     <Compile Include="Migrations\202101241543400_configurationstable.designer.cs">
       <DependentUpon>202101241543400_configurationstable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101290534135_dontknowerror.cs" />
+    <Compile Include="Migrations\202101290534135_dontknowerror.designer.cs">
+      <DependentUpon>202101290534135_dontknowerror.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101241543400_configurationstable.resx">
       <DependentUpon>202101241543400_configurationstable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101290534135_dontknowerror.resx">
+      <DependentUpon>202101290534135_dontknowerror.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

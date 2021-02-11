@@ -1,4 +1,7 @@
-﻿@model List<Category>
+﻿@model FinalProject.Web.ViewModels.NewProductViewModel
+
+@*@model List<Category>*@
+
 @{
     ViewBag.Title = "Create";
 }
@@ -8,8 +11,8 @@
 <form id="createProduct">
     <div class="form-group">
         <label>Category</label>
-        <select name="CategoryID">
-            @foreach (var category in Model)
+        <select class="form-control" name="CategoryID">
+            @foreach (var category in Model.AvailableCategories)
             {
                 <option value="@category.ID">@category.Name</option>
             }
@@ -31,25 +34,25 @@
         <input class="form-control" name="Price" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    @*<button type="submit" class="btn btn-primary">Submit</button>*@
     <button id="saveBtn" type="button">Save</button>
 </form>
 
 
 <script>
-    $("#saveBtn").click(function() {
+    $("#saveBtn").click(function () {
         $.ajax({
-                type: 'POST',
-                url: '/Product/Create',
-                data:$("#createProduct").serialize()
+            type: 'POST',
+            url: '/Product/Create',
+            data: $("#createProduct").serialize()
 
-            })
+        })
             .done(function (response) {
-                $("#tableContainer").html(response);
-                $("#actionContainer").html();
+                $("#tableContiner").html(response);
+                $("#actionContiner").html("");
 
             })
-            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("FAIL");
             });
     });

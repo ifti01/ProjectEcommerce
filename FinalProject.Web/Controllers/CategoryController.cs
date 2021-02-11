@@ -38,6 +38,8 @@ namespace FinalProject.Web.Controllers
             return PartialView(model);
         }
 
+        #region Created
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -63,6 +65,7 @@ namespace FinalProject.Web.Controllers
             return RedirectToAction("CategoryTable");
         }
 
+    #endregion
         [HttpGet]
         public ActionResult Index()
         {
@@ -70,6 +73,9 @@ namespace FinalProject.Web.Controllers
             return View();
         }
 
+        #region Updation
+
+        
         [HttpGet]
         public ActionResult Edit(int ID)
         {
@@ -94,6 +100,8 @@ namespace FinalProject.Web.Controllers
             categoryService.UpdateCategory(category);
             return RedirectToAction("Index");
         }
+
+        #endregion
 
         [HttpGet]
         public ActionResult Delete(int ID)
