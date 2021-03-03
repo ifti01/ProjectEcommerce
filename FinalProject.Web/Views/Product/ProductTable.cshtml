@@ -15,7 +15,7 @@
 			<div class="col-md-8">
 				<div class="form-group">
 					<label>Search</label>
-					<input class="form-control" id="searchTxt" name="Search" />
+					<input class="form-control" id="searchTxt" name="Search" value="@Model.SearchTerm" />
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -40,48 +40,57 @@
 </div>
 
 <div>
-	<table id="ProductsTable">
+	<table id="ProductsTable" class="table table-striped">
 		<thead>
 			<tr>
-				<td>Product Name</td>
-				<td>Category</td>
-				<td>Price</td>
-				<td>Actions</td>
+				<th class="font-weight-bold">Product Name</th>
+				<th class="font-weight-bold">Category</th>
+				<th class="font-weight-bold">Price</th>
+				<th class="font-weight-bold wrap-td">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var product in Model.Products)
+			@if (Model.Products != null && Model.Products.Count > 0)
+			{
+				foreach (var product in Model.Products)
+				{
+					<tr>
+						<td>@product.Name</td>
+						<td>
+							@if (product.Category != null)
+							{
+								<text>@product.Category.Name</text>
+							}
+							else
+							{
+								<text>--</text>
+							}
+						</td>
+						<td>@product.Price</td>
+						<td>
+							<button class="editButton" data-id="@product.ID">Edit</button>
+							<button class="deleteButton" data-id="@product.ID">Delete</button>
+							<button class="addtoCart" data-id="@product.ID">Add to Cart</button>
+						</td>
+					</tr>
+				}
+			}
+			else
 			{
 				<tr>
-					<td>@product.Name</td>
-					<td>
-						@if (product.Category != null)
-						{
-							<text>@product.Category.Name</text>
-						}
-						else
-						{
-							<text>--</text>
-						}
-					</td>
-					<td>@product.Price</td>
-					<td>
-						<button class="editButton" data-id="@product.ID">Edit</button>
-						<button class="deleteButton" data-id="@product.ID">Delete</button>
-						<button class="addtoCart" data-id="@product.ID">Add to Cart</button>
-					</td>
+					<td class="text-danger" colspan="4">No Products found.</td>
 				</tr>
 			}
 		</tbody>
 	</table>
 	<div>
 
-		@if (Model.PageNo != 1)
+		@*@if (Model.PageNo != 1)
 		{
 			<button class="pageButtons" data-pageNo="@(Model.PageNo - 1)">Previous</button>
 		}
 
-		<button class="pageButtons" data-pageNo="@(Model.PageNo + 1)">Next</button>
+		<button class="pageButtons" data-pageNo="@(Model.PageNo + 1)">Next</button>*@
 	</div>
 </div>
 
