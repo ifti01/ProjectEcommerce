@@ -1,6 +1,5 @@
 ﻿@model FinalProject.Web.ViewModels.NewProductViewModel
 
-@*@model List<Category>*@
 
 @{
     ViewBag.Title = "Create";
@@ -43,7 +42,7 @@
     $("#saveBtn").click(function () {
         $.ajax({
             type: 'POST',
-            url: '/Product/Create',
+            url: '@Url.Action("Create", "Product")',
             data: $("#createProduct").serialize()
 
         })

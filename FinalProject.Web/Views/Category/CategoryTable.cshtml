@@ -77,7 +77,6 @@
         $.ajax({
 
                 url: '@Url.Action("CategoryTable", "Category")',
-                //url: '/Category/CategoryTable',
             data: {
                 search: searchValue
             }
@@ -95,7 +94,7 @@
     $("#newBtn").click(function () {
         //# used for class
         $.ajax({
-            url: '/Category/Create',
+            url: '@Url.Action("Create", "Category")',
         })
             .done(function (response) {
                 $("#actionContainer").html(response);
@@ -110,7 +109,7 @@
     $(".editButton").click(function () {
         //. used for class
         $.ajax({
-            url: '/Category/Edit',
+            url: '@Url.Action("Edit", "Category")',
             data: {
                 ID: $(this).attr('data-id')
             }
@@ -134,7 +133,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/Category/Delete',
+                url: '@Url.Action("Delete", "Category")',
                 data: {
                     ID: $(this).attr('data-id')
                 }

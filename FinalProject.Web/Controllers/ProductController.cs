@@ -12,7 +12,7 @@ namespace FinalProject.Web.Controllers
     public class ProductController : Controller
     {
         //ProductsService productsService = new ProductsService();
-        CategoriesService categoriesService=new CategoriesService();
+        //CategoriesService categoriesService=new CategoriesService();
 
         // GET: Product
         public ActionResult Index()
@@ -58,14 +58,14 @@ namespace FinalProject.Web.Controllers
         {
             NewProductViewModel model = new NewProductViewModel();
 
-            model.AvailableCategories = categoriesService.GetCategories();
+            model.AvailableCategories = CategoriesService.Instance.GetCategories();
             return PartialView(model);
         }
 
         [HttpPost]
         public ActionResult Create(NewProductViewModel model)
         {
-            CategoriesService categoryService = new CategoriesService();
+            //CategoriesService categoryService = new CategoriesService();
 
             //create object of Entities
 
@@ -74,7 +74,7 @@ namespace FinalProject.Web.Controllers
             newProduct.Description = model.Description;
             newProduct.Price = model.Price;
             //newProduct.CategoryID = model.CategoryID;
-            newProduct.Category = categoryService.GetCategory(model.CategoryID);
+            newProduct.Category = CategoriesService.Instance.GetCategory(model.CategoryID);
             
             ProductsService.Instance.SaveProduct(newProduct);
 
@@ -93,10 +93,24 @@ namespace FinalProject.Web.Controllers
             model.Description = product.Description;
             model.Price = product.Price;
             model.CategoryID = product.Category != null ? product.Category.ID : 0;
-            model.AvailableCategories = categoriesService.GetCategories();
+            model.AvailableCategories = CategoriesService.Instance.GetCategories();
             //Availablectegories add kori nai
 
             return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(EditProductViewModel model)
+        {
+            var existingProduct = ProductsService.Instance.GetProduct(model.ID);
+            existingProduct.Name = model.Name;
+            existingProduct.Description = model.Description;
+            existingProduct.Price = model.Price;
+            existingProduct.Category = CategoriesService.Instance.GetCategory(model.CategoryID);
+
+            ProductsService.Instance.UpdateProduct(existingProduct);
+
+            return RedirectToAction("ProductTable");
         }
 
         [HttpPost]

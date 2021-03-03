@@ -11,7 +11,7 @@ namespace FinalProject.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        CategoriesService categoryService = new CategoriesService();
+        //CategoriesService categoryService = new CategoriesService();
 
         // GET: Category
         //[HttpGet]
@@ -27,7 +27,7 @@ namespace FinalProject.Web.Controllers
 
 
             model.SearchTerm = search;
-            model.Categories = categoryService.GetCategories();
+            model.Categories = CategoriesService.Instance.GetCategories();
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -60,7 +60,7 @@ namespace FinalProject.Web.Controllers
             newCategory.isFeatured = model.isFeatured;
             newCategory.ImageURL = model.ImageURL;
 
-            categoryService.SaveCategory(newCategory);
+            CategoriesService.Instance.SaveCategory(newCategory);
 
             return RedirectToAction("CategoryTable");
         }
@@ -82,7 +82,7 @@ namespace FinalProject.Web.Controllers
             EditCategoryViewModel model = new EditCategoryViewModel();
 
 
-            var category = categoryService.GetCategory(ID);
+            var category = CategoriesService.Instance.GetCategory(ID);
 
             model.ID = category.ID;
             model.Name = category.Name;
@@ -95,9 +95,23 @@ namespace FinalProject.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult Edit(EditCategoryViewModel model)
+        {
+            var existingCategory = CategoriesService.Instance.GetCategory(model.ID);
+            existingCategory.Name = model.Name;
+            existingCategory.Description = model.Description;
+            existingCategory.ImageURL = model.ImageURL;
+            existingCategory.isFeatured = model.isFeatured;
+
+            CategoriesService.Instance.UpdateCategory(existingCategory);
+
+            return RedirectToAction("CategoryTable");
+        }
+
+        [HttpPost]
         public ActionResult Edit(Category category)
         {
-            categoryService.UpdateCategory(category);
+            CategoriesService.Instance.UpdateCategory(category);
             return RedirectToAction("Index");
         }
 
@@ -106,14 +120,14 @@ namespace FinalProject.Web.Controllers
         [HttpGet]
         public ActionResult Delete(int ID)
         {
-            var category = categoryService.GetCategory(ID); 
+            var category = CategoriesService.Instance.GetCategory(ID); 
             return View(category);
         }
 
         [HttpPost]
         public ActionResult Delete(Category category)
         {
-            categoryService.DeleteCategory(category.ID);
+            CategoriesService.Instance.DeleteCategory(category.ID);
             return RedirectToAction("Index");
         }
 

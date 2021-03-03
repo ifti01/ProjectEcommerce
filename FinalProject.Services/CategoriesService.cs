@@ -12,6 +12,28 @@ namespace FinalProject.Services
 {
     public class CategoriesService
     {
+
+        #region Singleton
+
+        public static CategoriesService Instance
+        {
+            get
+            {
+                if (instance == null) instance = new CategoriesService();
+                {
+                    return instance;
+                }
+            }
+        }
+        private static CategoriesService instance { get; set; }
+
+        private CategoriesService()
+        {
+
+        }
+
+        #endregion
+
         //create communication between a controller and repository layer.
         // The service layer contains business logic.
         // In particular, it contains validation logic.
