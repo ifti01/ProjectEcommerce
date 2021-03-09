@@ -108,12 +108,6 @@ namespace FinalProject.Web.Controllers
             return RedirectToAction("CategoryTable");
         }
 
-        [HttpPost]
-        public ActionResult Edit(Category category)
-        {
-            CategoriesService.Instance.UpdateCategory(category);
-            return RedirectToAction("Index");
-        }
 
         #endregion
 

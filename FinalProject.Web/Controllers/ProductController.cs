@@ -67,12 +67,13 @@ namespace FinalProject.Web.Controllers
         {
             //CategoriesService categoryService = new CategoriesService();
 
-            //create object of Entities
+            //create object of Entity Product
 
             var newProduct = new Product();
             newProduct.Name = model.Name;
             newProduct.Description = model.Description;
             newProduct.Price = model.Price;
+            newProduct.ImageURL = model.ImageURL;
             //newProduct.CategoryID = model.CategoryID;
             newProduct.Category = CategoriesService.Instance.GetCategory(model.CategoryID);
             
@@ -94,8 +95,7 @@ namespace FinalProject.Web.Controllers
             model.Price = product.Price;
             model.CategoryID = product.Category != null ? product.Category.ID : 0;
             model.AvailableCategories = CategoriesService.Instance.GetCategories();
-            //Availablectegories add kori nai
-
+            model.ImageURL = product.ImageURL;
             return PartialView(model);
         }
 
@@ -103,25 +103,18 @@ namespace FinalProject.Web.Controllers
         public ActionResult Edit(EditProductViewModel model)
         {
             var existingProduct = ProductsService.Instance.GetProduct(model.ID);
+
             existingProduct.Name = model.Name;
             existingProduct.Description = model.Description;
             existingProduct.Price = model.Price;
             existingProduct.Category = CategoriesService.Instance.GetCategory(model.CategoryID);
+            existingProduct.ImageURL = model.ImageURL;
+            //existingProduct.CategoryID = model.CategoryID;
 
             ProductsService.Instance.UpdateProduct(existingProduct);
 
             return RedirectToAction("ProductTable");
         }
-
-        [HttpPost]
-        public ActionResult Edit(Product product)
-        {
-
-            ProductsService.Instance.UpdateProduct(product);
-
-            return RedirectToAction("ProductTable");
-        }
-
 
         [HttpPost]
         public ActionResult Delete(int ID)

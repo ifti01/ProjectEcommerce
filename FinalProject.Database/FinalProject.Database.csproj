@@ -72,6 +72,18 @@
     <Compile Include="Migrations\202101290534135_dontknowerror.designer.cs">
       <DependentUpon>202101290534135_dontknowerror.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103070522284_imageURLinproducts.cs" />
+    <Compile Include="Migrations\202103070522284_imageURLinproducts.designer.cs">
+      <DependentUpon>202103070522284_imageURLinproducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103071409572_forCategoryId.cs" />
+    <Compile Include="Migrations\202103071409572_forCategoryId.designer.cs">
+      <DependentUpon>202103071409572_forCategoryId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103080427193_catIDremoved.cs" />
+    <Compile Include="Migrations\202103080427193_catIDremoved.designer.cs">
+      <DependentUpon>202103080427193_catIDremoved.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -100,6 +112,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101290534135_dontknowerror.resx">
       <DependentUpon>202101290534135_dontknowerror.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103070522284_imageURLinproducts.resx">
+      <DependentUpon>202103070522284_imageURLinproducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103071409572_forCategoryId.resx">
+      <DependentUpon>202103071409572_forCategoryId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103080427193_catIDremoved.resx">
+      <DependentUpon>202103080427193_catIDremoved.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

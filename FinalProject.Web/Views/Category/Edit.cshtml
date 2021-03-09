@@ -95,9 +95,9 @@
 			data: $("#editCategory").serialize()
 		})
 		.done(function (response) {
-			$("#tableContiner").html(response);
+			$("#tableContainer").html(response);
 			$("#actionContainer").html("");
-			focusAction("tableContiner");
+			focusAction("tableContainer");
 		})
 		.fail(function (XMLHttpRequest, textStatus, errorThrown) {
 			alert("FAIL");
@@ -106,7 +106,7 @@
 
 	$("#cancelBtn").click(function () {
 			$("#actionContainer").html();
-		focusAction("#tableConiner");
+		focusAction("#tableContainer");
 
 	});
 
