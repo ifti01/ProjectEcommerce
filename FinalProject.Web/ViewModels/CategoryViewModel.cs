@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using FinalProject.Entities;
 
+
+
 namespace FinalProject.Web.ViewModels
 {
     public class NewCategoryViewModel
@@ -21,6 +23,7 @@ namespace FinalProject.Web.ViewModels
     {
         public string SearchTerm { get; set; } 
         public List<Category> Categories { get; set; }
+        public Pager Pager { get; set; }
     }
 
     public class EditCategoryViewModel

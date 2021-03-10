@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using FinalProject.Entities;
 using FinalProject.Services;
 using FinalProject.Web.ViewModels;
+using System.Data.Entity;
+
 
 namespace FinalProject.Web.Controllers
 {
@@ -21,21 +23,26 @@ namespace FinalProject.Web.Controllers
         //}
 
 
-        public ActionResult CategoryTable(string search)
+        public ActionResult CategoryTable(string search,int? pageNo)
         {
             CategorySearchViewModel model = new CategorySearchViewModel();
-
-
             model.SearchTerm = search;
-            model.Categories = CategoriesService.Instance.GetCategories();
 
-            if (!string.IsNullOrEmpty(search))
+            pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
+
+            var totalRecords = CategoriesService.Instance.GetCategoriesCount(search);
+            model.Categories = CategoriesService.Instance.GetCategories(search,pageNo.Value);
+
+            if (model.Categories != null)
             {
-                
-                model.Categories = model.Categories.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToList();
+                model.Pager = new Pager(totalRecords, pageNo, 3);
 
+                return PartialView("CategoryTable", model);
             }
-            return PartialView(model);
+            else
+            {
+                return HttpNotFound();
+            }
         }
 
         #region Created
