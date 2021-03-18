@@ -56,11 +56,12 @@ namespace FinalProject.Web.Controllers
             //return PartialView(Index());
         }
 
-        [HttpPost]
+        [HttpPost] 
         public ActionResult Create(NewCategoryViewModel model)
         {
             //create object of Entities
-
+            if (ModelState.IsValid) 
+            { 
             var newCategory = new Category();
             newCategory.Name = model.Name;
             newCategory.Description = model.Description;
@@ -71,8 +72,14 @@ namespace FinalProject.Web.Controllers
 
             return RedirectToAction("CategoryTable");
         }
+            else
+            {
+                return new HttpStatusCodeResult(500);
+            }
+        }
 
-    #endregion
+
+        #endregion
         [HttpGet]
         public ActionResult Index()
         {

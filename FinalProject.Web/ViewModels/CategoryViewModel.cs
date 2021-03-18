@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using FinalProject.Entities;
@@ -9,8 +10,12 @@ using FinalProject.Entities;
 namespace FinalProject.Web.ViewModels
 {
     public class NewCategoryViewModel
-    { 
+    {
+        [Required]
+        [MinLength(5), MaxLength(50)]
         public string Name { get; set; }
+
+        [MaxLength(500)]
         public string Description { get; set; }
         public Decimal Price { get; set; }
         public int CategoryID { get; set; }

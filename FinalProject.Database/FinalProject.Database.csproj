@@ -84,6 +84,10 @@
     <Compile Include="Migrations\202103080427193_catIDremoved.designer.cs">
       <DependentUpon>202103080427193_catIDremoved.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103121737083_basicvalidatioAdded.cs" />
+    <Compile Include="Migrations\202103121737083_basicvalidatioAdded.designer.cs">
+      <DependentUpon>202103121737083_basicvalidatioAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -121,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103080427193_catIDremoved.resx">
       <DependentUpon>202103080427193_catIDremoved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103121737083_basicvalidatioAdded.resx">
+      <DependentUpon>202103121737083_basicvalidatioAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
