@@ -13,6 +13,12 @@ namespace FinalProject.Web.Controllers
         //ProductsService productsService = new ProductsService();
 
         // GET: Shop
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult Checkout()
         {
             CheckoutViewModel model = new CheckoutViewModel();

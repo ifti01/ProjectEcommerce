@@ -33,4 +33,9 @@ namespace FinalProject.Web.ViewModels
         public string ImageURL { get; set; }
         public List<Category> AvailableCategories { get; set; }
     }
+
+    public class ProductViewModel
+    {
+       public Product Product { get; set; }
+    }
 }
