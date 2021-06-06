@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FinalProject.Services;
+using FinalProject.Web.Code;
 using FinalProject.Web.ViewModels;
 
 namespace FinalProject.Web.Controllers
@@ -14,9 +15,21 @@ namespace FinalProject.Web.Controllers
 
         // GET: Shop
 
-        public ActionResult Index()
+        public ActionResult Index(string searchTerm,int? minimumPrice,int? maximumPrice,int? categoryID,int? sortBy)
         {
-            return View();
+            
+            ShopViewModel model = new ShopViewModel();
+
+
+            model.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories() ;
+
+            model.MaximumPrice = ProductsService.Instance.GetMaximumPrice();
+
+            model.Products = ProductsService.Instance.SearchProducts(searchTerm,minimumPrice,maximumPrice,categoryID,sortBy);
+
+            model.SortBy = sortBy;
+
+            return View(model);
         }
 
         public ActionResult Checkout()
