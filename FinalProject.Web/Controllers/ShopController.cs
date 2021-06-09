@@ -32,6 +32,15 @@ namespace FinalProject.Web.Controllers
             return View(model);
         }
 
+        public ActionResult FilterProducts(string searchTerm, int? minimumPrice, int? maximumPrice, int? categoryID, int? sortBy)
+        {
+
+            FilterProductsViewModel model = new FilterProductsViewModel(); 
+
+            model.Products = ProductsService.Instance.SearchProducts(searchTerm, minimumPrice, maximumPrice, categoryID, sortBy);
+
+            return PartialView(model);
+        }
         public ActionResult Checkout()
         {
             CheckoutViewModel model = new CheckoutViewModel();

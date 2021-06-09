@@ -61,12 +61,12 @@ namespace FinalProject.Services
 
                 if (minimumPrice.HasValue)
                 {
-                    products = products.Where(x => x.Price >= minimumPrice).ToList();
+                    products = products.Where(x => x.Price >= minimumPrice.Value).ToList();
                 }
 
                 if (maximumPrice.HasValue)
                 {
-                    products = products.Where(x => x.Price <= minimumPrice).ToList();
+                    products = products.Where(x => x.Price <= maximumPrice.Value).ToList();
                 }
 
                 if (sortBy.HasValue)
@@ -81,8 +81,8 @@ namespace FinalProject.Services
                             products = products.OrderBy(x => x.Price).ToList();
                             break;
 
-                        case 4:
-                            products = products.OrderByDescending(x => x.ID).ToList();
+                        default:
+                            products = products.OrderByDescending(x => x.Price).ToList();
                             break;
                     } 
                 }

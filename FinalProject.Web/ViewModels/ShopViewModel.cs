@@ -21,5 +21,10 @@ namespace FinalProject.Web.ViewModels
         public int? SortBy { get; set; } 
         
     }
+
+    public class FilterProductsViewModel
+    {
+        public List<Product> Products { get; set; }
+    }
        
 }
