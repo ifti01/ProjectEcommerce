@@ -18,13 +18,16 @@ namespace FinalProject.Web.ViewModels
         public int MaximumPrice { get; set; }
         public List<Product> Products { get; set; }
         public List<Category> FeaturedCategories { get; set; }
-        public int? SortBy { get; set; } 
-        
+        public int? SortBy { get; set; }
+        public int? CategoryID { get; set; }
+        public Pager Pager { get; set; }
     }
 
     public class FilterProductsViewModel
     {
         public List<Product> Products { get; set; }
+
+        public Pager Pager { get; set; }
     }
        
 }
