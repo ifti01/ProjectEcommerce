@@ -88,6 +88,10 @@
     <Compile Include="Migrations\202103121737083_basicvalidatioAdded.designer.cs">
       <DependentUpon>202103121737083_basicvalidatioAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106271020450_addedCategoryIDInProduct.cs" />
+    <Compile Include="Migrations\202106271020450_addedCategoryIDInProduct.designer.cs">
+      <DependentUpon>202106271020450_addedCategoryIDInProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -130,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103121737083_basicvalidatioAdded.resx">
       <DependentUpon>202103121737083_basicvalidatioAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106271020450_addedCategoryIDInProduct.resx">
+      <DependentUpon>202106271020450_addedCategoryIDInProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,11 @@
 }
 
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/jquery.validate.min.js"></script>
+
+
 <div>
 	<form method="post">
 		<div class="row">
@@ -80,12 +85,28 @@
 		</tbody>
 	</table>
 	<div>
-		@if (Model.PageNo != 1)
+		@if (Model.Pager != null && Model.Pager.TotalPages>1)
+		{
+
+			if (Model.Pager.CurrentPage > 1)
 			{
-				<button class="pageButtons" data-pageNo="@(Model.PageNo - 1)">Previous</button>
+				<button class="pageButtons" data-pageno="1">First</button>
+				<button class="pageButtons" data-pageno="@(Model.Pager.CurrentPage - 1)">Previous</button>
 			}
 
-			<button class="pageButtons" data-pageNo="@(Model.PageNo + 1)">Next</button>
+			for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+			{
+				string activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
+
+				<button class="@activeClass pageButtons" data-pageno="@page">@page</button>
+			}
+
+			if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+			{
+				<button class="pageButtons" data-pageno="@(Model.Pager.CurrentPage + 1)">Next</button>
+				<button class="pageButtons" data-pageno="@Model.Pager.EndPage">Last</button>
+			}
+		}
 	</div>
 </div>
 
@@ -95,7 +116,7 @@
 		$.ajax({
 			url: '@Url.Action("ProductTable", "Product")',
 			data: {
-				pageNo : $(this).attr("data-pageNo")
+				pageNo : $(this).attr("data-pageno")
 			}
 		})
 		.done(function (response) {
@@ -239,275 +260,3 @@
 
 
 
-@*@model  FinalProject.Web.ViewModels.ProductSearchViewModel
-
-
-	@{
-		ViewBag.Title = "ProductTable";
-	}
-
-	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-	<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
-
-	<div>
-		<form method="post" action="/Product/ProductTable">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="form-group">
-						<label>Search</label>
-						<input class="form-control" id="searchTxt" name="Search" value="@Model.SearchTerm" />
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Action</label>
-						<div class="row">
-							<div class="col-md-4 pr-0">
-								<button class="btn btn-primary form-control" type="button" id="searchBtn">Search</button>
-							</div>
-							<div class="col-md-4 pr-0">
-								<button class="btn btn-primary form-control" type="button" id="newBtn">New</button>
-							</div>
-							<div class="col-md-4 pr-0">
-								<button class="btn btn-primary form-control" type="button" id="resetBtn">Reset</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</form>
-	</div>
-
-	<div>
-		<table id="ProductsTable" class="table table-striped">
-			<thead>
-				<tr>
-					<th class="font-weight-bold">Product Name</th>
-					<th class="font-weight-bold">Category</th>
-					<th class="font-weight-bold">Price</th>
-					<th class="font-weight-bold wrap-td">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if (Model.Products != null && Model.Products.Count > 0)
-				{
-					foreach (var product in Model.Products)
-					{
-						<tr>
-							<td>@product.Name</td>
-							<td>
-								@if (product.Category != null)
-								{
-									<text>@product.Category.Name</text>
-								}
-								else
-								{
-									<text>--</text>
-								}
-							</td>
-							<td>@product.Price</td>
-							<td>
-								<button class="editButton" data-id="@product.ID">Edit</button>
-								<button class="deleteButton" data-id="@product.ID">Delete</button>
-								<button class="addtoCart" data-id="@product.ID">Add to Cart</button>
-							</td>
-						</tr>
-					}
-				}
-				else
-				{
-					<tr>
-						<td class="text-danger" colspan="4">No Products found.</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-		<div>*@
-
-@*@if (Model.PageNo != 1)
-	{
-		<button class="pageButtons" data-pageNo="@(Model.PageNo - 1)">Previous</button>
-	}
-
-	<button class="pageButtons" data-pageNo="@(Model.PageNo + 1)">Next</button>*@
-@*</div>
-	</div>*@
-
-
-@*<script>
-
-		$('#ProductsTable').DataTable();
-
-		$(".pageButtons").click(function () {
-			$.ajax({
-
-				url : '@Url.Action("ProductTable","Product")',
-				data: {
-					pageNo: $(this).attr("data-pageNo")
-				}
-			})
-				.done(function (response) {
-					$("#tableContiner").html(response);
-				})
-				.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-					alert("FAIL");
-				});
-		});
-
-		$("#searchBtn").click(function () {
-			var searchValue = $("#searchTxt").val();
-
-			$.ajax({
-
-					url: '@Url.Action("ProductTable","Product")',
-					data: {
-						search: searchValue
-					}
-			})
-					.done(function (response) {
-						$("#tableContiner").html(response);
-				})
-					.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-						alert("FAIL");
-				});
-		});
-
-
-		$("#resetBtn").click(function () {
-			var searchValue = '';
-
-			$.ajax({
-				url: '@Url.Action("ProductTable", "Product")',
-				data: {
-					search: searchValue
-				}
-			})
-			.done(function (response) {
-				$("#tableContainer").html(response);
-			})
-			.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-				alert("FAIL");
-			});
-		});
-
-
-		$("#newBtn").click(function () {
-			//# used for class
-			$.ajax({
-				url: '@Url.Action("Create","Product")',
-
-			})
-				.done(function (response) {
-					$("#actionContainer").html(response);
-
-					focusAction();
-				})
-				.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-					alert("FAIL");
-				});
-		});
-
-
-		$(".editButton").click(function () {
-			$.ajax({
-				url: '@Url.Action("Edit","Product")',
-				data: {
-					ID: $(this).attr('data-id')
-				}
-			})
-				.done(function (response) {
-					$("#actionContainer").html(response);
-
-					focusAction("actionContainer");
-				})
-				.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-					alert("FAIL");
-				});
-			});
-
-		$(".deleteButton").click(function () {
-			//. used for class
-
-
-			swal({
-				title: "Are you sure?",
-				text: "Once deleted, you will not be able to recover this imaginary file!",
-				icon: "warning",
-				buttons: true,
-				dangerMode: true,
-			})
-				.then((willDelete) => {
-					if (willDelete) {
-						$.ajax({
-							type: 'POST',
-							url: '@Url.Action("Delete","Product")',
-							data: {
-								ID: $(this).attr('data-id')
-							}
-						})
-							.done(function (response) {
-								$("#tableContiner").html(response);
-
-								swal("Record has been deleted!", {
-									icon: "success",
-								});
-							})
-							.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-								alert("FAIL");
-							});
-
-
-					}
-					else {
-						swal("Your imaginary file is safe!");
-					}
-				});
-
-
-
-			//var confirmDelete = confirm("Sure to Delete it?");
-
-			//if (confirmDelete) {
-
-			//    $.ajax({
-			//        type:'POST',
-			//        url: '/Product/Delete',
-			//        data: {
-			//            ID: $(this).attr('data-id')
-			//        }
-			//    })
-			//    .done(function (response) {
-			//        $("#tableContainer").html(response);
-			//    })
-			//    .fail(function(XMLHttpRequest, textStatus, errorThrown) {
-			//        alert("FAIL");
-			//    });
-			//}
-
-		});
-
-		var products = [];
-
-
-		$(".addtoCart").click(function () {
-			//. used for class
-
-			var productID = $(this).attr('data-id');
-
-			products.push(productID);
-
-			$.cookie('CartProducts', products.join('-'), { path: '/' });
-
-			alert("Product added to Cart");
-
-		});
-
-		function focusAction() {
-			$('html', 'body').animate({
-				scrollTop: $("#actionContainer").offset().top - 100
-			}, 1000);
-		}
-
-	</script>*@

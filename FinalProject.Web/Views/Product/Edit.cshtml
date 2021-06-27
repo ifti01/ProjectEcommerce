@@ -53,6 +53,36 @@
 </form>
 
 <script>
+	$('#editProduct').validate({ // initialize the plugin
+		rules: {
+			Name: {
+				required: true,
+				minlength: 5,
+				maxlength: 50
+			},
+			Description: {
+				maxlength: 500
+			},
+			Price: {
+				range: [1, 100000]
+			}
+		},
+		messages: {
+			Name: {
+				required: 'Name is required',
+				minlength: 'minimum length is 5',
+				maxlength: 'maximum length is 50'
+			},
+			Description: {
+				maxlength: 'maximum length is 500'
+			},
+			Price: {
+				range: 'Price must be between in 1-100000'
+			}
+		}
+	});
+
+
 	$("#imageUpload").change(function () {
 		var element = this;
 		var formData = new FormData();
@@ -62,39 +92,55 @@
 			formData.append("Photo", file);
 		}
 		$.ajax({
-			type: 'POST',
-			url: '@Url.Action("UploadImage", "Shared")',
-			dataType: 'json',
-			data: formData,
-			contentType: false,
-			processData: false
-		})
-		.done(function (response) {
-			console.log(response);
-			if (response.Success) {
-				$("#ImageURL").val(response.ImageURL);
-				$("#productImage").attr("src", response.ImageURL);
-			}
-		})
-		.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-			alert("FAIL");
-		});
+				type: 'POST',
+				url: '@Url.Action("UploadImage", "Shared")',
+				dataType: 'json',
+				data: formData,
+				contentType: false,
+				processData: false
+			})
+			.done(function (response) {
+				console.log(response);
+				if (response.Success) {
+					$("#ImageURL").val(response.ImageURL);
+					$("#productImage").attr("src", response.ImageURL);
+				}
+			})
+			.fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				alert("FAIL");
+			});
 	});
+
 	$("#updateBtn").click(function () {
-		$.ajax({
-			type: 'POST',
-			url: '@Url.Action("Edit", "Product")',
-			data: $("#editProduct").serialize()
-		})
-		.done(function (response) {
-			$("#tableContiner").html(response);
-			$("#actionContainer").html("");
-			focusAction("tableContiner");
-		})
-		.fail(function (XMLHttpRequest, textStatus, errorThrown) {
-			alert("FAIL");
-		});
+		if ($("#editProduct").valid()) {
+			$.ajax({
+					type: 'POST',
+					url: '@Url.Action("Edit", "Product")',
+					data: $("#editProduct").serialize()
+
+				})
+				.done(function (response) {
+					$("#tableContiner").html(response);
+					$("#actionContiner").html("");
+
+
+					focusAction("tableContiner");
+				})
+				.fail(function (XMLHttpRequest, textStatus, errorThrown) {
+					alert("FAIL");
+				});
+		}
+		else {
+			swal({
+				title: "Warning",
+				text: "Please enter all valid data in fields.",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			});
+		}
 	});
+
 	$("#cancelBtn").click(function () {
 		$("#actionContainer").html("");
 		focusAction("tableContiner");

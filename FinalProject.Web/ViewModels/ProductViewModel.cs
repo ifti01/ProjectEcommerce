@@ -10,6 +10,8 @@ namespace FinalProject.Web.ViewModels
     {
         public List<Product> Products { get; set; } 
         public string SearchTerm { get; set; }
+        public Pager Pager { get; set; }
+
         public int PageNo { get; set; }
     }
 

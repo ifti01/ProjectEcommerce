@@ -188,6 +188,49 @@ namespace FinalProject.Services
             }
         }
 
+        public List<Product> GetProducts(string search, int pageNo,int pageSize)
+        {
+            using (var context = new CBContext())
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    return context.Products.Where(product => product.Name != null &&
+                                                                product.Name.ToLower().Contains(search.ToLower()))
+                        .OrderBy(x => x.ID)
+                        .Skip((pageNo - 1) * pageSize)
+                        .Take(pageSize)
+                        .Include(x => x.Category)
+                        .ToList();
+                }
+                else
+                {
+                    return context.Products
+                        .OrderBy(x => x.ID)
+                        .Skip((pageNo - 1) * pageSize)
+                        .Take(pageSize)
+                        .Include(x => x.Category)
+                        .ToList();
+                }
+            }
+        }
+
+        public int GetProductsCount(string search)
+        {
+            using (var context = new CBContext())
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    return context.Products.Where(product => product.Name != null && 
+                                                             product.Name.ToLower().Contains(search.ToLower())).Count();
+                }
+                else
+                {
+                    return context.Products.Count();
+                }
+            }
+        }
+
+
         public List<Product> GetProductsByCategory(int categoryID,int pageSize)
         {
             //for showing product category in productindex
@@ -231,8 +274,31 @@ namespace FinalProject.Services
         {
             using (var context = new CBContext())
             {
+                //While Edit Product, Category of Product is not changing.It can be fixed by this approach
+                //Take Product from Database and update its properties from the supplied product object 
+                //Problem occured!!new category is added while editing a product category,Lets fix this by taking another strategy
+
+
+                //var productInDb = context.Products.Where(x => x.ID == product.ID).FirstOrDefault();
+
+                //productInDb.Name = product.Name;
+                //productInDb.Description = product.Description;
+
+                //productInDb.Price = product.Price;
+
+                //productInDb.Category = product.Category; //For this reason,new category is added while editing a product category,Lets fix this by taking another strategy
+
+                ////If imageurl is empty don't update it
+                //if (!string.IsNullOrEmpty(product.ImageURL))
+                //{
+                //    productInDb.ImageURL = product.ImageURL;
+                //}
+
+                //context.Entry(productInDb).State = System.Data.Entity.EntityState.Modified;
+                ////context.Categories.Remove(category);
+                //context.SaveChanges();
+
                 context.Entry(product).State = System.Data.Entity.EntityState.Modified;
-                //context.Categories.Remove(category);
                 context.SaveChanges();
 
             }

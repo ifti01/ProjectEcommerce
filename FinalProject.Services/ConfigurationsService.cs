@@ -37,6 +37,26 @@ namespace FinalProject.Services
                 return context.Configurations.Find(Key);
             }
 
+        } 
+        public int Pagesize()
+        {
+            using (var context = new CBContext())
+            {
+                var pageSizeConfig = context.Configurations.Find("Pagesize");
+
+                return pageSizeConfig != null ? int.Parse(pageSizeConfig.Value) : 5;
+            }
+
+        } 
+        public int ShopPagesize()
+        {
+            using (var context = new CBContext())
+            {
+                var pageSizeConfig = context.Configurations.Find("ShopPagesize");
+
+                return pageSizeConfig != null ? int.Parse(pageSizeConfig.Value) : 6;
+            }
+
         }
     }
 }

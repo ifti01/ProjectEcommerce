@@ -126,10 +126,13 @@ namespace FinalProject.Services
         {
             using (var context = new CBContext())
             {
-                var category = context.Categories.Find(ID);
+                var category = context.Categories.Where(x => x.ID == ID).
+                    Include(x => x.Products).FirstOrDefault();
+                    
 
                 //context.Entry(category).State = System.Data.Entity.EntityState.Deleted;
-                
+
+                context.Products.RemoveRange(category.Products);
                 context.Categories.Remove(category);
                 context.SaveChanges();
             }
