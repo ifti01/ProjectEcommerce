@@ -184,6 +184,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106190614460_InitialCreate.cs" />
+    <Compile Include="Migrations\202106190614460_InitialCreate.designer.cs">
+      <DependentUpon>202106190614460_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106301220096_AddedNewPropertiesToUser.cs" />
+    <Compile Include="Migrations\202106301220096_AddedNewPropertiesToUser.designer.cs">
+      <DependentUpon>202106301220096_AddedNewPropertiesToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -716,6 +725,14 @@
       <Project>{DE404283-1B58-4C08-A12F-B163EF972721}</Project>
       <Name>FinalProject.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202106190614460_InitialCreate.resx">
+      <DependentUpon>202106190614460_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106301220096_AddedNewPropertiesToUser.resx">
+      <DependentUpon>202106301220096_AddedNewPropertiesToUser.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

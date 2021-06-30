@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using FinalProject.Entities;
+using FinalProject.Web.Models;
 
 namespace FinalProject.Web.ViewModels
 {
@@ -10,6 +11,7 @@ namespace FinalProject.Web.ViewModels
     {
         public List<Product> CartProducts { get; set; }
         public List<int> CartProductIDs { get; set; }
+        public ApplicationUser User { get; set; }
     }
 
     public class ShopViewModel

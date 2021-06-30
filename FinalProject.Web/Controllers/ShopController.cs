@@ -6,12 +6,42 @@ using System.Web.Mvc;
 using FinalProject.Services;
 using FinalProject.Web.Code;
 using FinalProject.Web.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace FinalProject.Web.Controllers
 {
     [Authorize]
     public class ShopController : Controller
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+
         //ProductsService productsService = new ProductsService();
 
         // GET: Shop
@@ -60,6 +90,8 @@ namespace FinalProject.Web.Controllers
 
             return PartialView(model);
         }
+
+        [Authorize]
         public ActionResult Checkout()
         {
             CheckoutViewModel model = new CheckoutViewModel();
@@ -77,6 +109,7 @@ namespace FinalProject.Web.Controllers
                 model.CartProductIDs = CartProductsCookie.Value.Split('-').Select(x => int.Parse(x)).ToList();
 
                 model.CartProducts = ProductsService.Instance.GetProducts(model.CartProductIDs); //products that user wiibuy
+                model.User = UserManager.FindById(User.Identity.GetUserId());
             }
 
             return View(model);
