@@ -375,15 +375,7 @@
         });
     };
 
-    function hideLoader() {
-        $(".loader").fadeOut();
-        $("#loading-overlay").delay(500).fadeOut('slow');
-    };
-
-    function showLoader() {
-        $(".loader").fadeIn();
-        $("#loading-overlay").delay(500).fadeIn('slow');
-    };
+  
 
     //var flatPrice = function() {
     //    if( $().slider ) {
@@ -840,5 +832,33 @@
         flatIsotope();
         flatCarouselOwl();
         flatContentBox();
+        updateCartProducts();
     });
 })(jQuery);
+
+function hideLoader() {
+    $(".loader").hide();
+    $("#loading-overlay").hide('slow');
+};
+
+function showLoader() {
+    $(".loader").show();
+    $("#loading-overlay").show();
+};
+
+function updateCartProducts(parameters) {
+    var cartProducts;
+    var existingCookieData = $.cookie('CartProducts');
+
+    if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null)
+    {
+        cartProducts = existingCookieData.split('-');
+    }
+
+    else
+    {
+        cartProducts = [];
+    }
+
+    $("#cartProductsCount").html(cartProducts.length);
+};
