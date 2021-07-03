@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using FinalProject.Entities;
 using FinalProject.Services;
 using FinalProject.Web.Code;
 using FinalProject.Web.ViewModels;
@@ -99,7 +98,7 @@ namespace FinalProject.Web.Controllers
 
             var CartProductsCookie = Request.Cookies["CartProducts"];
 
-            if (CartProductsCookie != null && !string.IsNullOrEmpty(CartProductsCookie.Value))
+            if (CartProductsCookie != null)
             {
                 //var productIDs = CartProductsCookie.Value;
 
@@ -114,47 +113,6 @@ namespace FinalProject.Web.Controllers
             }
 
             return View(model);
-        }
-        //product id should beformatted like ="7-7-1-5"
-        public JsonResult Placeorder(string productIDs)
-        {
-
-            JsonResult result = new JsonResult();
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-
-            if (!string.IsNullOrEmpty(productIDs))
-            {
-                
-            var productQuantities = productIDs.Split('-').Select(x => int.Parse(x)).ToList();
-            var boughtProducts = ProductsService.Instance.GetProducts(productQuantities.Distinct().ToList());
-
-            Order newOrder = new Order();
-            newOrder.UserID = User.Identity.GetUserId();
-            newOrder.OrderTime = DateTime.Now;
-            newOrder.Status = "Pending";
-            newOrder.TotalAmount = boughtProducts.Sum(x=> x.Price*productQuantities.Where
-                (productID => productID == x.ID).Count());
-
-
-            newOrder.OrderItems = new List<OrderItem>();
-            newOrder.OrderItems.AddRange(boughtProducts.Select(x=>new OrderItem()
-            {
-                ProductID = x.ID,Quantity = productQuantities.Where(productID=>productID == x.ID).Count()
-
-            }));
-
-            //neworder object ke servicer(ShopService) moddhe dicchi,jate database e niye jaite pare
-
-            var rowsAffected = ShopService.Instance.SaveOrder(newOrder);
-            result.Data = new { Success = true,Rows = rowsAffected};
-            }
-
-            else
-            {
-                result.Data = new { Success = false };
-
-            }
-            return result;
         }
     }
 }
