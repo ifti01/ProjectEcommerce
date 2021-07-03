@@ -92,6 +92,14 @@
     <Compile Include="Migrations\202106271020450_addedCategoryIDInProduct.designer.cs">
       <DependentUpon>202106271020450_addedCategoryIDInProduct.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202107011541047_AddedOrderandItem.cs" />
+    <Compile Include="Migrations\202107011541047_AddedOrderandItem.designer.cs">
+      <DependentUpon>202107011541047_AddedOrderandItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107021354386_QuantityInOrderItems.cs" />
+    <Compile Include="Migrations\202107021354386_QuantityInOrderItems.designer.cs">
+      <DependentUpon>202107021354386_QuantityInOrderItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -137,6 +145,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106271020450_addedCategoryIDInProduct.resx">
       <DependentUpon>202106271020450_addedCategoryIDInProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107011541047_AddedOrderandItem.resx">
+      <DependentUpon>202107011541047_AddedOrderandItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107021354386_QuantityInOrderItems.resx">
+      <DependentUpon>202107021354386_QuantityInOrderItems.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

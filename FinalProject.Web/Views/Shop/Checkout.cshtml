@@ -2,12 +2,8 @@
 
 @if (Model.CartProducts != null && Model.CartProducts.Count > 0)
 {
-
-
-
     var i=1;
-
-<section class="flat-row main-shop shop-slidebar">
+    <section class="flat-row main-shop shop-slidebar">
     <div class="container">
         <div class="row">
             <div class="col-md-4 order-md-2 mb-4">
@@ -21,7 +17,7 @@
                         var productQuantity = Model.CartProductIDs.Where(productID => productID == product.ID).Count();
 
 
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed" data-id="@product.ID">
                             <div>
                                 <h6 class="my-0">
 
@@ -67,21 +63,47 @@
                     @*https://pastebin.com/g83BsvYy*@ @*Payment method*@
 
                     <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                    <button id="placeOrderBtn" class="btn btn-primary btn-lg btn-block" type="button">Place order</button>
                 </form>
             </div>
         </div>
     </div><!-- /.container -->
 </section>
 
-}
 
+<style type="text/css">.lh-condensed { }</style>
+
+    <script>
+        $("#placeOrderBtn").click(function () {
+            $.ajax({
+                    url: '@Url.Action("PlaceOrder", "Shop")',
+                    data: {
+                        productIDs: '@string.Join("-", Model.CartProductIDs)'
+                    }
+                })
+                .done(function (response) {
+                    if(response.Success)
+                    {
+                        $.cookie('CartProducts', '', { path: '/' });
+                        updateCartProducts();
+                        swal("Done", "Your Order has been placed.", "success").then((value) => {
+                            window.location = '@Url.Action("Index", "Shop")';
+                        });;
+                    }
+                    else{
+                        swal("Failed", "Unable to place order.", "warning");
+                    }
+                })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("FAIL");
+                });
+        });
+    </script>
+}
 else
 {
-<div>
-    <b>
-        No Products in the Cart.
-    </b>
-</div>
+    <div>
+        <b>No Products in Cart.</b>
+    </div>
 }
 
